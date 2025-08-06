@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reglamento Practicantes - Tabacos de Oriente</title>
+    <link rel="icon" type="image/png" href="https://www.plasenciacigars.com/wp-content/themes/plasencia-cigars-2018/favicon/favicon-32x32.png" />
     <style>
         * {
             margin: 0;
@@ -609,7 +610,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
-        emailjs.init('Ono4OZsd8RTgFwq_3'); // Reemplaza con tu user ID
+        emailjs.init('Ono4OZsd8RTgFwq_3'); 
     </script>
 
     <script>
@@ -623,25 +624,19 @@
             const name = document.getElementById('name').value;
             const confirmation = document.getElementById('confirmation').checked;
 
-            // Ocultar mensajes anteriores
             successMessage.style.display = 'none';
             errorMessage.style.display = 'none';
 
-            // Validar campos
             if (!email || !name || !confirmation) {
                 errorMessage.style.display = 'block';
                 return;
             }
 
-            // Deshabilitar botón durante el proceso
             submitBtn.disabled = true;
             submitBtn.textContent = 'Enviando...';
 
-            // Simular envío (en implementación real, aquí enviarías el correo)
             setTimeout(() => {
                 try {
-                    // Aquí normalmente harías una llamada al servidor para enviar el correo
-                    // Ejemplo de datos que enviarías:
                     const confirmationData = {
                         practitionerEmail: email,
                         practitionerName: name,
@@ -668,20 +663,6 @@
                         submitBtn.disabled = false;
                         submitBtn.textContent = 'Confirmar Lectura y Enviar';
                     });
-
-                    // Mostrar mensaje de éxito
-                    successMessage.style.display = 'block';
-
-                    // Limpiar formulario
-                    document.getElementById('confirmationForm').reset();
-
-                    // Re-habilitar botón
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Confirmar Lectura y Enviar';
-
-                    // Scroll al mensaje de éxito
-                    successMessage.scrollIntoView({ behavior: 'smooth' });
-
 
 
                 } catch (error) {
