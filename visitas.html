@@ -178,6 +178,108 @@
             margin-top: 10px;
         }
 
+        .registration-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .registration-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="email"]:focus,
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-top: 4px;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-message {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: linear-gradient(45deg, #e17055, #d63031);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -197,6 +299,10 @@
 
             .section-divider h3 {
                 font-size: 1.3rem;
+            }
+
+            .registration-section {
+                padding: 25px;
             }
         }
 
@@ -494,11 +600,77 @@
                 <strong>LA EMPRESA SE RESERVA EL DERECHO DE ADMISIÓN. EL CUMPLIMIENTO DE ESTAS NORMAS ES OBLIGATORIO PARA TODOS LOS VISITANTES.</strong>
             </div>
         </div>
+        <div class="registration-section">
+            <div class="registration-title">SOLICITUD DE VISITA</div>
+            <p style="margin-bottom: 30px; color: #555; font-size: 1.1rem;">
+                Para coordinar su visita a nuestras instalaciones, contáctenos o complete el siguiente formulario:
+            </p>
+
+            <div class="contact-info" style="margin-bottom: 25px;">
+                <p style="font-size: 1.1rem; color: #2c3e50;">
+                    <strong>Correo electrónico:</strong>
+                    <span class="highlight">taoparaiso@plasenciatabaco.com</span>
+                </p>
+            </div>
+
+            <form id="visitForm">
+                <div class="form-group">
+                    <label for="name">Nombre Completo del Catedrático o Responsable:</label>
+                    <input type="text" id="name" name="name" required placeholder="Nombre completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="institution">Institución / Universidad:</label>
+                    <input type="text" id="institution" name="institution" required placeholder="Nombre de la institución">
+                </div>
+
+                <div class="form-group">
+                    <label for="students">Cantidad de Estudiantes:</label>
+                    <input type="text" id="students" name="students" required placeholder="Número de visitantes">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Fecha Deseada:</label>
+                    <input type="text" id="date" name="date" required placeholder="dd/mm/aaaa">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="confirmation" name="confirmation" required>
+                    <label for="confirmation">
+                        Confirmo que he leído y acepto todas las normas para visitas a la planta de producción de Tabacos de Oriente, y me comprometo a que el grupo cumpla con cada una de ellas.
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Enviar Solicitud
+                </button>
+            </form>
+
+            <div id="successMessage" class="success-message">
+                <strong>Solicitud enviada exitosamente!</strong><br>
+                Nos pondremos en contacto pronto para confirmar la fecha y hora de su visita.
+            </div>
+
+            <div id="errorMessage" class="error-message">
+                <strong>Error al enviar la solicitud.</strong><br>
+                Por favor, verifica que hayas completado todos los campos correctamente e intenta nuevamente.
+            </div>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        emailjs.init('Ono4OZsd8RTgFwq_3');
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.rule-card, .section-divider, .important-note');
+            const cards = document.querySelectorAll('.rule-card, .section-divider, .important-note, .registration-section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -513,6 +685,71 @@
                 card.style.transform = 'translateY(20px)';
                 card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(card);
+            });
+
+            document.getElementById('visitForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const submitBtn = document.getElementById('submitBtn');
+                const successMessage = document.getElementById('successMessage');
+                const errorMessage = document.getElementById('errorMessage');
+                const email = document.getElementById('email').value;
+                const name = document.getElementById('name').value;
+                const institution = document.getElementById('institution').value;
+                const students = document.getElementById('students').value;
+                const date = document.getElementById('date').value;
+                const confirmation = document.getElementById('confirmation').checked;
+
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+
+                if (!email || !name || !institution || !students || !date || !confirmation) {
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Enviando...';
+
+                setTimeout(() => {
+                    try {
+                        emailjs.send("service_qhgf52p", "template_5otamvn", {
+                            practitioner_email: email,
+                            practitioner_name: name,
+                            institution: institution,
+                            students: students,
+                            visit_date: date,
+                            confirmation_date: new Date().toLocaleDateString('es-ES'),
+                            confirmation_time: new Date().toLocaleTimeString('es-ES')
+                        }).then(() => {
+                            successMessage.style.display = 'block';
+                            document.getElementById('visitForm').reset();
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Enviar Solicitud';
+                            successMessage.scrollIntoView({ behavior: 'smooth' });
+                        }, (error) => {
+                            console.error('Error al enviar:', error);
+                            errorMessage.style.display = 'block';
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Enviar Solicitud';
+                        });
+                    } catch (error) {
+                        console.error('Error:', error);
+                        errorMessage.style.display = 'block';
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Enviar Solicitud';
+                    }
+                }, 2000);
+            });
+
+            document.getElementById('email').addEventListener('input', function() {
+                const email = this.value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email && !emailRegex.test(email)) {
+                    this.style.borderColor = '#e74c3c';
+                } else {
+                    this.style.borderColor = '#ddd';
+                }
             });
         });
     </script>
