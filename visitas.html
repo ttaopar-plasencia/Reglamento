@@ -678,8 +678,8 @@
             </div>
 
             <div id="errorMessage" class="error-message">
-                <strong>Error al enviar la solicitud.</strong><br>
-                Por favor, verifica que hayas completado todos los campos correctamente e intenta nuevamente.
+                <strong>Complete los siguientes campos:</strong><br>
+                <span id="errorDetails"></span>
             </div>
         </div>
     </div>
@@ -730,7 +730,7 @@
 
                 successMessage.style.display = 'none';
                 errorMessage.style.display = 'none';
-                errorMessage.innerHTML = '';
+                document.getElementById('errorDetails').innerHTML = '';
 
                 const missingFields = [];
                 if (!name.trim()) missingFields.push('<strong>Nombre Completo:</strong> escriba el nombre del catedrático o responsable.');
@@ -754,7 +754,7 @@
                 if (!confirmation) missingFields.push('<strong>Confirmación:</strong> marque la casilla aceptando las normas de visita.');
 
                 if (missingFields.length > 0) {
-                    errorMessage.innerHTML = missingFields.join('<br>');
+                    document.getElementById('errorDetails').innerHTML = missingFields.join('<br>');
                     errorMessage.style.display = 'block';
                     errorMessage.scrollIntoView({ behavior: 'smooth' });
                     return;
