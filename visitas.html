@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Normas para Visitas - Tabacos de Oriente</title>
     <link rel="icon" type="image/png" href="https://www.plasenciacigars.com/wp-content/themes/plasencia-cigars-2018/favicon/favicon-32x32.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         * {
             margin: 0;
@@ -329,6 +330,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <img src="https://www.plasenciacigars.com/wp-content/themes/plasencia-cigars-2018/favicon/favicon-32x32.png" alt="Logo" style="width: 80px; height: 80px; margin-bottom: 15px;">
             <h1>NORMAS PARA VISITAS</h1>
             <h2>TABACOS DE ORIENTE, EL PARAÍSO</h2>
             <p style="margin-top: 10px; color: #7f8c8d;">Recorrido a Planta de Producción</p>
@@ -670,10 +672,7 @@
                 Nos pondremos en contacto pronto para confirmar la fecha y hora de su visita.
             </div>
 
-            <div id="errorMessage" class="error-message">
-                <strong>Complete los siguientes campos:</strong><br>
-                <span id="errorDetails"></span>
-            </div>
+            <div id="errorMessage" class="error-message"></div>
         </div>
     </div>
 
@@ -723,7 +722,6 @@
 
                 successMessage.style.display = 'none';
                 errorMessage.style.display = 'none';
-                document.getElementById('errorDetails').innerHTML = '';
 
                 const missingFields = [];
                 if (!name.trim()) missingFields.push('<strong>Nombre Completo:</strong> escriba el nombre del catedrático o responsable.');
@@ -747,7 +745,7 @@
                 if (!confirmation) missingFields.push('<strong>Confirmación:</strong> marque la casilla aceptando las normas de visita.');
 
                 if (missingFields.length > 0) {
-                    document.getElementById('errorDetails').innerHTML = missingFields.join('<br>');
+                    errorMessage.innerHTML = '<strong>Complete los siguientes campos:</strong><br>' + missingFields.join('<br>');
                     errorMessage.style.display = 'block';
                     errorMessage.scrollIntoView({ behavior: 'smooth' });
                     return;
@@ -758,15 +756,12 @@
 
                 setTimeout(() => {
                     try {
-                        emailjs.send("service_qhgf52p", "template_5otamvn", {
+                        emailjs.send("service_qhgf52p", "template_087oyyl", {
                             practitioner_email: email,
-                            practitioner_name: name,
-                            institution: institution,
-                            students: students,
-                            visit_date: date,
+                            practitioner_name: name + ' | Institución: ' + institution + ' | Estudiantes: ' + students + ' | Fecha visita: ' + date,
                             confirmation_date: new Date().toLocaleDateString('es-ES'),
                             confirmation_time: new Date().toLocaleTimeString('es-ES'),
-                            cc_email: 'taoparaiso@plasenciatabaco.com, floraguilar@plasenciatabaco.com'
+                            regulations_version: 'VISITAS-2025'
                         }).then(() => {
                             successMessage.style.display = 'block';
                             document.getElementById('visitForm').reset();
