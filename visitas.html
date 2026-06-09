@@ -611,13 +611,6 @@
                 Para coordinar su visita a nuestras instalaciones, contáctenos o complete el siguiente formulario:
             </p>
 
-            <div class="contact-info" style="margin-bottom: 25px;">
-                <p style="font-size: 1.1rem; color: #2c3e50;">
-                    <strong>Correo electrónico:</strong>
-                    <span class="highlight">taoparaiso@plasenciatabaco.com</span>
-                </p>
-            </div>
-
             <form id="visitForm">
                 <div class="form-group">
                     <label for="name">Nombre Completo del Catedrático o Responsable:</label>
@@ -772,7 +765,8 @@
                             students: students,
                             visit_date: date,
                             confirmation_date: new Date().toLocaleDateString('es-ES'),
-                            confirmation_time: new Date().toLocaleTimeString('es-ES')
+                            confirmation_time: new Date().toLocaleTimeString('es-ES'),
+                            cc_email: 'taoparaiso@plasenciatabaco.com, floraguilar@plasenciatabaco.com'
                         }).then(() => {
                             successMessage.style.display = 'block';
                             document.getElementById('visitForm').reset();
