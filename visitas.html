@@ -208,17 +208,22 @@
         }
 
         .form-group input[type="email"],
-        .form-group input[type="text"] {
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select {
             width: 100%;
             padding: 15px;
             border: 2px solid #ddd;
             border-radius: 10px;
             font-size: 1rem;
             transition: border-color 0.3s ease;
+            background: white;
         }
 
         .form-group input[type="email"]:focus,
-        .form-group input[type="text"]:focus {
+        .form-group input[type="text"]:focus,
+        .form-group input[type="date"]:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -626,7 +631,23 @@
 
                 <div class="form-group">
                     <label for="institution">Institución / Universidad:</label>
-                    <input type="text" id="institution" name="institution" required placeholder="Nombre de la institución">
+                    <select id="institution" name="institution" required>
+                        <option value="">Seleccione una institución...</option>
+                        <option value="UNAH">Universidad Nacional Autónoma de Honduras (UNAH)</option>
+                        <option value="UNICAH">Universidad Católica de Honduras (UNICAH)</option>
+                        <option value="UTH">Universidad Tecnológica de Honduras (UTH)</option>
+                        <option value="UNITEC">Universidad Tecnológica Centroamericana (UNITEC)</option>
+                        <option value="UPNFM">Universidad Pedagógica Nacional Francisco Morazán (UPNFM)</option>
+                        <option value="UNAG">Universidad Nacional de Agricultura (UNAG)</option>
+                        <option value="USAP">Universidad de San Pedro Sula (USAP)</option>
+                        <option value="CEUTEC">Centro Universitario Tecnológico (CEUTEC)</option>
+                        <option value="UJCV">Universidad José Cecilio del Valle (UJCV)</option>
+                        <option value="UNACIFOR">Universidad Nacional de Ciencias Forestales (UNACIFOR)</option>
+                        <option value="INCEHSA">Instituto Centroamericano de Estudios Superiores (INCEHSA)</option>
+                        <option value="UDEM">Universidad de El Paraíso para el Desarrollo Municipal (UDEM)</option>
+                        <option value="otra">Otra Institución</option>
+                    </select>
+                    <input type="text" id="otherInstitution" name="otherInstitution" placeholder="Escriba el nombre de la institución" style="display:none; margin-top:10px;">
                 </div>
 
                 <div class="form-group">
@@ -636,7 +657,7 @@
 
                 <div class="form-group">
                     <label for="date">Fecha Deseada:</label>
-                    <input type="text" id="date" name="date" required placeholder="dd/mm/aaaa">
+                    <input type="date" id="date" name="date" required>
                 </div>
 
                 <div class="checkbox-container">
@@ -695,16 +716,47 @@
                 const errorMessage = document.getElementById('errorMessage');
                 const email = document.getElementById('email').value;
                 const name = document.getElementById('name').value;
-                const institution = document.getElementById('institution').value;
+                const institutionSelect = document.getElementById('institution');
+                const otherInstitution = document.getElementById('otherInstitution');
+                let institution = '';
+                if (institutionSelect.value === 'otra') {
+                    institution = otherInstitution.value.trim();
+                } else {
+                    institution = institutionSelect.options[institutionSelect.selectedIndex].text;
+                }
                 const students = document.getElementById('students').value;
                 const date = document.getElementById('date').value;
                 const confirmation = document.getElementById('confirmation').checked;
 
                 successMessage.style.display = 'none';
                 errorMessage.style.display = 'none';
+                errorMessage.innerHTML = '';
 
-                if (!email || !name || !institution || !students || !date || !confirmation) {
+                const missingFields = [];
+                if (!name.trim()) missingFields.push('<strong>Nombre Completo:</strong> escriba el nombre del catedrático o responsable.');
+                if (!email.trim()) {
+                    missingFields.push('<strong>Correo Electrónico:</strong> ingrese un correo válido (ej: nombre@correo.com).');
+                } else {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) missingFields.push('<strong>Correo Electrónico:</strong> el formato no es válido (ej: nombre@correo.com).');
+                }
+                if (!institutionSelect.value) {
+                    missingFields.push('<strong>Institución / Universidad:</strong> seleccione una institución de la lista.');
+                } else if (institutionSelect.value === 'otra' && !otherInstitution.value.trim()) {
+                    missingFields.push('<strong>Otra Institución:</strong> escriba el nombre de la institución en el campo que aparece.');
+                }
+                if (!students.trim()) {
+                    missingFields.push('<strong>Cantidad de Estudiantes:</strong> ingrese el número de visitantes (solo números).');
+                } else if (!/^\d+$/.test(students.trim())) {
+                    missingFields.push('<strong>Cantidad de Estudiantes:</strong> solo se permiten números (ej: 15).');
+                }
+                if (!date) missingFields.push('<strong>Fecha Deseada:</strong> seleccione una fecha en el calendario.');
+                if (!confirmation) missingFields.push('<strong>Confirmación:</strong> marque la casilla aceptando las normas de visita.');
+
+                if (missingFields.length > 0) {
+                    errorMessage.innerHTML = missingFields.join('<br>');
                     errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
                     return;
                 }
 
@@ -749,6 +801,18 @@
                     this.style.borderColor = '#e74c3c';
                 } else {
                     this.style.borderColor = '#ddd';
+                }
+            });
+
+            document.getElementById('institution').addEventListener('change', function() {
+                const otherInput = document.getElementById('otherInstitution');
+                if (this.value === 'otra') {
+                    otherInput.style.display = 'block';
+                    otherInput.setAttribute('required', '');
+                } else {
+                    otherInput.style.display = 'none';
+                    otherInput.removeAttribute('required');
+                    otherInput.value = '';
                 }
             });
         });
